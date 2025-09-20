@@ -19,7 +19,7 @@ export const USERS: User[] = [
   },
 ];
 
-export const SHOPS: Shop[] = [
+export const SHOPS = [
   {
     id: 'shop-1',
     ownerId: 'user-2',

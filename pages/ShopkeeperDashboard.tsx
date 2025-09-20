@@ -294,10 +294,9 @@ const ShopkeeperDashboard: React.FC = () => {
           {/* Book button bottom-right */}
           <div className="flex justify-end mt-auto">
             <button
-              onClick={() => setSelectedService(service)}
-              className="bg-green-800 text-white px-4 py-2 text-sm rounded-lg shadow hover:bg-green-700 transition"
+              className="bg-red-600 text-white px-4 py-2 text-sm rounded-lg shadow hover:bg-red-700 transition"
             >
-              Book Slot
+              Delete service
             </button>
           </div>
         </div>
