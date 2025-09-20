@@ -2,8 +2,23 @@ import React, { useState, useCallback } from "react";
 import { useAuth } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getBusinessInsights } from "../services/geminiService";
-import { SHOPS } from "../data"; 
-import { Shop } from "../types"; 
+import { SHOPS } from "../data";
+import { Shop } from "../types";
+import { FaCut, FaSpa, FaPaintBrush, FaUserTie } from "react-icons/fa";
+import { GiRazor, GiFamas } from "react-icons/gi";
+import { X } from "lucide-react"; // For popup close button
+// Removed duplicate import of React and useState
+
+// Service logos mapping
+const serviceLogos: Record<string, React.ReactNode> = {
+  Haircut: <FaCut size={32} color="#15803d" />,
+  Shaving: <GiRazor size={32} color="#15803d" />,
+  Spa: <FaSpa size={32} color="#15803d" />,
+  Makeup: <FaPaintBrush size={32} color="#15803d" />,
+  Massage: <FaSpa size={32} color="#15803d" />,
+  Facial: <GiFamas size={32} color="#15803d" />,
+  Default: <FaUserTie size={32} color="#15803d" />,
+};
 import { BarChart2, List, Users, BrainCircuit } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -27,6 +42,7 @@ const ShopkeeperDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [insights, setInsights] = useState("");
   const [isLoadingInsights, setIsLoadingInsights] = useState(false);
+  const [selectedService, setSelectedService] = useState<Shop["services"][number] | null>(null);
 
   const handleLogout = () => {
     logout();
@@ -52,7 +68,6 @@ const ShopkeeperDashboard: React.FC = () => {
 
   const today = new Date().toISOString().split("T")[0];
 
-  // Weekly sales data
   const salesByDay = shop.sales.reduce((acc, sale) => {
     const day = new Date(sale.date).toLocaleDateString("en-US", {
       weekday: "short",
@@ -65,7 +80,6 @@ const ShopkeeperDashboard: React.FC = () => {
     sales,
   }));
 
-  // Services chart
   const salesByService = shop.sales.reduce((acc, sale) => {
     const serviceName =
       shop.services.find((s) => s.id === sale.serviceId)?.name || "Unknown";
@@ -83,9 +97,9 @@ const ShopkeeperDashboard: React.FC = () => {
   }> = ({ tabName, icon, children }) => (
     <button
       onClick={() => setActiveTab(tabName)}
-      className={`flex items-center space-x-3 p-3 rounded-md w-full text-left ${
+      className={`flex items-center space-x-3 p-3 rounded-lg w-full text-left font-medium transition-all ${
         activeTab === tabName
-          ? "bg-green-100 text-green-700"
+          ? "bg-green-100 text-green-700 shadow-sm"
           : "text-gray-600 hover:bg-gray-100"
       }`}
     >
@@ -97,8 +111,8 @@ const ShopkeeperDashboard: React.FC = () => {
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-64 bg-white p-4 space-y-4 flex-col hidden md:flex">
-        <h1 className="text-2xl font-bold text-green-800 px-2">YahiPe</h1>
+      <aside className="w-64 bg-white p-5 space-y-5 flex-col hidden md:flex shadow-md">
+        <h1 className="text-3xl font-extrabold text-green-800 px-2">YahiPe</h1>
         <nav className="flex-grow space-y-2">
           <TabButton tabName="dashboard" icon={<BarChart2 className="w-5 h-5" />}>
             Dashboard
@@ -115,18 +129,18 @@ const ShopkeeperDashboard: React.FC = () => {
         </nav>
         <button
           onClick={handleLogout}
-          className="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition-colors"
+          className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-2 rounded-lg hover:shadow-md hover:scale-[1.02] transition-all"
         >
           Logout
         </button>
       </aside>
 
       {/* Main */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+      <main className="flex-1 p-6 md:p-10 overflow-y-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+            <h2 className="text-3xl font-bold text-gray-800">
               Hello, {user?.name}!
             </h2>
             <p className="text-gray-600">
@@ -157,7 +171,7 @@ const ShopkeeperDashboard: React.FC = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`capitalize shrink-0 px-3 py-2 font-medium text-sm rounded-t-lg ${
+                className={`capitalize shrink-0 px-3 py-2 font-medium text-sm rounded-t-lg transition-all ${
                   activeTab === tab
                     ? "border-b-2 border-green-500 text-green-600"
                     : "border-b-2 border-transparent text-gray-500 hover:text-gray-700"
@@ -171,44 +185,34 @@ const ShopkeeperDashboard: React.FC = () => {
 
         {/* Dashboard Tab */}
         {activeTab === "dashboard" && (
-          <div className="space-y-6">
-            <div className="md:hidden flex items-center justify-between bg-white p-4 rounded-lg shadow">
-              <span className="text-gray-700 font-medium">Shop Status:</span>
-              <button
-                onClick={toggleShopStatus}
-                className={`px-4 py-2 rounded-full text-white font-bold ${
-                  shop.isOpen ? "bg-green-500" : "bg-red-500"
-                }`}
-              >
-                {shop.isOpen ? "Open" : "Closed"}
-              </button>
-            </div>
+          <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow">
+              <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-xl shadow hover:shadow-lg transition-all">
                 <h3 className="text-gray-500">Today's Sales</h3>
-                <p className="text-3xl font-bold text-gray-800">
+                <p className="text-4xl font-extrabold text-green-800">
                   ₹
                   {shop.sales
                     .filter((s) => s.date === today)
                     .reduce((acc, s) => acc + s.amount, 0)}
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow">
+              <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-xl shadow hover:shadow-lg transition-all">
                 <h3 className="text-gray-500">Services Sold Today</h3>
-                <p className="text-3xl font-bold text-gray-800">
+                <p className="text-4xl font-extrabold text-green-800">
                   {shop.sales.filter((s) => s.date === today).length}
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow">
+              <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-xl shadow hover:shadow-lg transition-all">
                 <h3 className="text-gray-500">Active Staff</h3>
-                <p className="text-3xl font-bold text-gray-800">
+                <p className="text-4xl font-extrabold text-green-800">
                   {shop.staff.length}
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="font-semibold mb-4">Weekly Sales</h3>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="bg-white p-6 rounded-xl shadow">
+                <h3 className="font-semibold mb-4 text-gray-800">Weekly Sales</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -225,8 +229,10 @@ const ShopkeeperDashboard: React.FC = () => {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="font-semibold mb-4">Popular Services</h3>
+              <div className="bg-white p-6 rounded-xl shadow">
+                <h3 className="font-semibold mb-4 text-gray-800">
+                  Popular Services
+                </h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={serviceChartData} layout="vertical">
                     <CartesianGrid strokeDasharray="3 3" />
@@ -247,131 +253,184 @@ const ShopkeeperDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* Services Tab */}
-        {activeTab === "services" && (
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-bold mb-4">Manage Services</h3>
-            <div className="space-y-3">
-              {shop.services.map((service) => (
-                <div
-                  key={service.id}
-                  className="flex justify-between items-center p-3 border rounded-md"
-                >
-                  <p className="text-gray-800">{service.name}</p>
-                  <p className="font-semibold text-gray-600">₹{service.price}</p>
-                </div>
+{/* Services Tab */}
+{activeTab === "services" && (
+  <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl shadow-lg">
+    <h3 className="text-2xl font-extrabold mb-6 text-green-800 flex items-center gap-2">
+      <List className="w-6 h-6" /> Manage Services
+    </h3>
+
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {shop.services.map((service) => (
+        <div
+          key={service.id}
+          className="relative bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 p-5 border border-gray-100 flex flex-col"
+        >
+
+          <h4 className="text-lg font-semibold text-gray-800">{service.name}</h4>
+
+          {/* Service type badge */}
+          <span className="inline-block mt-1 mb-2 px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-700">
+            {service.type || "General"}
+          </span>
+
+          {/* Price */}
+          <p className="text-xl font-bold text-green-700 mb-4">₹{service.price}</p>
+
+          {/* Demo pictures if available */}
+          {service.demoPhotos && service.demoPhotos.length > 0 && (
+            <div className="flex space-x-2 mt-auto mb-4">
+              {service.demoPhotos.map((photo, idx) => (
+                <img
+                  key={idx}
+                  src={photo}
+                  alt="demo"
+                  className="w-14 h-14 object-cover rounded-lg"
+                />
               ))}
             </div>
+          )}
 
-            {/* Add New Service Form */}
-            <div className="mt-6">
-              <h4 className="font-semibold text-gray-700 mb-2">Add New Service</h4>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const form = e.target as HTMLFormElement;
-                  const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-                  const price = Number(
-                    (form.elements.namedItem("price") as HTMLInputElement).value
-                  );
-                  const newService = {
-                    id: `s${shop.id}-${Date.now()}`,
-                    name,
-                    price,
-                  };
-                  setShop({ ...shop, services: [...shop.services, newService] });
-                  form.reset();
-                }}
-                className="space-y-3"
-              >
-                <input
-                  name="name"
-                  placeholder="Service Name"
-                  className="w-full border p-2 rounded-md"
-                  required
-                />
-                <input
-                  name="price"
-                  type="number"
-                  placeholder="Price (₹)"
-                  className="w-full border p-2 rounded-md"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900"
-                >
-                  Add Service
-                </button>
-              </form>
-            </div>
+          {/* Book button bottom-right */}
+          <div className="flex justify-end mt-auto">
+            <button
+              onClick={() => setSelectedService(service)}
+              className="bg-green-800 text-white px-4 py-2 text-sm rounded-lg shadow hover:bg-green-700 transition"
+            >
+              Book Slot
+            </button>
           </div>
-        )}
+        </div>
+      ))}
+    </div>
+
+    <button className="mt-6 bg-green-800 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200">
+      + Add New Service
+    </button>
+  </div>
+)}
+
+{/* Booking Popup Modal */}
+{selectedService && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-2xl shadow-xl w-96">
+      <h3 className="text-xl font-bold mb-4 text-green-800">
+        Book Slot for {selectedService.name}
+      </h3>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          alert("Booking confirmed ✅");
+          setSelectedService(null);
+        }}
+        className="space-y-4"
+      >
+        <div>
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Name
+          </label>
+          <input
+            type="text"
+            required
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            required
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Time Available
+          </label>
+          <input
+            type="time"
+            required
+            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div className="flex justify-end space-x-3 pt-3">
+          <button
+            type="button"
+            onClick={() => setSelectedService(null)}
+            className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700"
+          >
+            Confirm Booking
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+
 
         {/* Staff Tab */}
         {activeTab === "staff" && (
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-bold mb-4">Manage Staff</h3>
-            <div className="space-y-3">
+          <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl shadow-lg">
+            <h3 className="text-2xl font-extrabold mb-6 text-green-800 flex items-center gap-2">
+              <Users className="w-6 h-6" /> Manage Staff
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {shop.staff.map((member) => (
                 <div
                   key={member.id}
-                  className="flex justify-between items-center p-3 border rounded-md"
+                  className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 p-5 border border-gray-100"
                 >
-                  <p className="text-gray-800">{member.name}</p>
-                  <p className="font-semibold text-gray-600">{member.shift}</p>
+                  <div className="flex items-center space-x-4 mb-4">
+                    <img
+                      src={member.photo || "https://randomuser.me/api/portraits/lego/1.jpg"}
+                      alt={member.name}
+                      className="w-16 h-16 rounded-full object-cover border"
+                    />
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-800">{member.name}</h4>
+                      <p className="text-sm text-gray-600">{member.shift}</p>
+                      <p className="text-xs text-gray-400">ID: {member.id}</p>
+                    </div>
+                  </div>
+                  {member.demoPhotos && member.demoPhotos.length > 0 && (
+                    <div className="flex space-x-3">
+                      {member.demoPhotos.map((photo, index) => (
+                        <img
+                          key={index}
+                          src={photo}
+                          alt="Demo"
+                          className="w-16 h-16 rounded-lg object-cover"
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
-
-            {/* Add New Staff Form */}
-            <div className="mt-6">
-              <h4 className="font-semibold text-gray-700 mb-2">Add New Staff</h4>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const form = e.target as HTMLFormElement;
-                  const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-                  const shift = (form.elements.namedItem("shift") as HTMLInputElement).value;
-                  const newStaff = {
-                    id: `st${shop.id}-${Date.now()}`,
-                    name,
-                    shift,
-                  };
-                  setShop({ ...shop, staff: [...shop.staff, newStaff] });
-                  form.reset();
-                }}
-                className="space-y-3"
-              >
-                <input
-                  name="name"
-                  placeholder="Staff Name"
-                  className="w-full border p-2 rounded-md"
-                  required
-                />
-                <input
-                  name="shift"
-                  placeholder="Shift (e.g., 9 AM - 6 PM)"
-                  className="w-full border p-2 rounded-md"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900"
-                >
-                  Add Staff
-                </button>
-              </form>
-            </div>
+            <button className="mt-6 bg-green-900 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200">
+              + Add New Staff
+            </button>
           </div>
         )}
 
         {/* Insights Tab */}
         {activeTab === "insights" && (
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-xl font-bold mb-4 flex items-center">
-              <BrainCircuit className="w-6 h-6 mr-2 text-green-800" />
-              AI-Powered Business Insights
+          <div className="bg-gradient-to-br from-green-50 to-white p-6 rounded-2xl shadow-lg">
+            <h3 className="text-2xl font-extrabold mb-6 flex items-center text-green-800 gap-2">
+              <BrainCircuit className="w-7 h-7" /> AI-Powered Business Insights
             </h3>
             <p className="text-gray-600 mb-4">
               Get personalized suggestions to grow your business based on your
@@ -380,24 +439,24 @@ const ShopkeeperDashboard: React.FC = () => {
             <button
               onClick={fetchInsights}
               disabled={isLoadingInsights}
-              className="bg-green-800 text-white px-6 py-2 rounded-md hover:bg-green-900 disabled:bg-green-300"
+              className="bg-green-800 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200 disabled:from-green-300 disabled:to-green-300"
             >
               {isLoadingInsights ? "Thinking..." : "Get Suggestions"}
             </button>
             {isLoadingInsights && (
-              <p className="mt-4 text-gray-600">
+              <p className="mt-4 text-gray-600 animate-pulse">
                 Our AI is analyzing your data. This might take a moment...
               </p>
             )}
             {insights && (
-              <div className="mt-6 p-4 bg-green-50 rounded-md border border-green-200">
-                <h4 className="font-semibold text-gray-800 mb-2">
+              <div className="mt-6 p-5 bg-green-50 rounded-xl border border-green-200 shadow-sm">
+                <h4 className="font-semibold text-gray-800 mb-3">
                   Here are some ideas for you:
                 </h4>
                 <div className="whitespace-pre-wrap text-gray-700 space-y-2">
                   {insights
                     .split("\n")
-                    .map((line, i) => line.trim() && <p key={i}>{line}</p>)}
+                    .map((line, i) => line.trim() && <p key={i}>• {line}</p>)}
                 </div>
               </div>
             )}
