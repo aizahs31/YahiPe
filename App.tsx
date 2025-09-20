@@ -4,6 +4,8 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import ConsumerDashboard from './pages/ConsumerDashboard';
 import ShopkeeperDashboard from './pages/ShopkeeperDashboard';
+import HowItWorksPage from './pages/howitworks';
+import OurGoalPage from './pages/ourgoal';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { useAuth } from './components/AuthContext'; // Ensure useAuth is imported
@@ -26,6 +28,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/howitworks" element={<HowItWorksPage />} />
+        <Route path="/ourgoal" element={<OurGoalPage />} />
         <Route
           path="/dashboard/consumer"
           element={<ProtectedRoute><ConsumerDashboard /></ProtectedRoute>}
@@ -39,3 +43,4 @@ export default function App() {
     </HashRouter>
   );
 }
+

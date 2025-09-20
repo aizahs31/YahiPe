@@ -10,9 +10,8 @@ const Header: React.FC = () => {
       <nav className="container mx-auto px-8 py-6 flex justify-between items-center">
         <Link to="/" className="text-3xl font-bold text-green-800">YahiPe</Link>
         <div className="hidden md:flex items-center space-x-12">
-          <a href="#how-it-works" className="text-gray-700 hover:text-green-700 font-medium transition-colors">How it Works</a>
-          <a href="#benefits" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Benefits</a>
-          <a href="#sdgs" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Our Goal</a>
+          <Link to="/howitworks" className="text-gray-700 hover:text-green-700 font-medium transition-colors">How It Works</Link>
+          <Link to="/ourgoal" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Our Goal</Link>
           <a href="#contact" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Contact</a>
           <Link to="/login" className="bg-green-800 text-white px-8 py-3 rounded-none hover:bg-green-900 transition-colors font-medium">Login / Sign Up</Link>
         </div>
@@ -24,9 +23,8 @@ const Header: React.FC = () => {
       </nav>
       {isOpen && (
         <div className="md:hidden px-8 pt-4 pb-6 space-y-4 bg-white border-t border-green-50">
-          <a href="#how-it-works" className="block text-gray-700 hover:text-green-700 font-medium">How it Works</a>
-          <a href="#benefits" className="block text-gray-700 hover:text-green-700 font-medium">Benefits</a>
-          <a href="#sdgs" className="block text-gray-700 hover:text-green-700 font-medium">Our Goal</a>
+          <Link to="/howitworks" className="block text-gray-700 hover:text-green-700 font-medium">How It Works</Link>
+          <Link to="/ourgoal" className="block text-gray-700 hover:text-green-700 font-medium">Our Goal</Link>
           <a href="#contact" className="block text-gray-700 hover:text-green-700 font-medium">Contact</a>
           <Link to="/login" className="block w-full text-center bg-green-800 text-white px-8 py-3 rounded-none hover:bg-green-900 transition-colors font-medium">Login / Sign Up</Link>
         </div>
