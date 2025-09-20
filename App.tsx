@@ -1,4 +1,3 @@
-
 import React, { useState, useContext, createContext, useMemo, useCallback, useEffect } from 'react';
 import { HashRouter, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { USERS, SHOPS } from './data';
@@ -55,47 +54,48 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-            <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-                <Link to="/" className="text-2xl font-bold text-indigo-600">YahiPe</Link>
-                <div className="hidden md:flex items-center space-x-8">
-                    <a href="#how-it-works" className="text-gray-600 hover:text-indigo-600">How it Works</a>
-                    <a href="#benefits" className="text-gray-600 hover:text-indigo-600">Benefits</a>
-                    <a href="#sdgs" className="text-gray-600 hover:text-indigo-600">Our Goal</a>
-                    <a href="#contact" className="text-gray-600 hover:text-indigo-600">Contact</a>
-                    <Link to="/login" className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">Login / Sign Up</Link>
+        <header className="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-green-50">
+            <nav className="container mx-auto px-8 py-6 flex justify-between items-center">
+                <Link to="/" className="text-3xl font-bold text-green-800">YahiPe</Link>
+                <div className="hidden md:flex items-center space-x-12">
+                    <a href="#how-it-works" className="text-gray-700 hover:text-green-700 font-medium transition-colors">How it Works</a>
+                    <a href="#benefits" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Benefits</a>
+                    <a href="#sdgs" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Our Goal</a>
+                    <a href="#contact" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Contact</a>
+                    <Link to="/login" className="bg-green-800 text-white px-8 py-3 rounded-none hover:bg-green-900 transition-colors font-medium">Login / Sign Up</Link>
                 </div>
                 <div className="md:hidden">
                     <button onClick={() => setIsOpen(!isOpen)}>
-                        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        {isOpen ? <X className="w-6 h-6 text-green-800" /> : <Menu className="w-6 h-6 text-green-800" />}
                     </button>
                 </div>
             </nav>
             {isOpen && (
-                <div className="md:hidden px-6 pt-2 pb-4 space-y-2">
-                    <a href="#how-it-works" className="block text-gray-600 hover:text-indigo-600">How it Works</a>
-                    <a href="#benefits" className="block text-gray-600 hover:text-indigo-600">Benefits</a>
-                    <a href="#sdgs" className="block text-gray-600 hover:text-indigo-600">Our Goal</a>
-                    <a href="#contact" className="block text-gray-600 hover:text-indigo-600">Contact</a>
-                    <Link to="/login" className="block w-full text-center bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">Login / Sign Up</Link>
+                <div className="md:hidden px-8 pt-4 pb-6 space-y-4 bg-white border-t border-green-50">
+                    <a href="#how-it-works" className="block text-gray-700 hover:text-green-700 font-medium">How it Works</a>
+                    <a href="#benefits" className="block text-gray-700 hover:text-green-700 font-medium">Benefits</a>
+                    <a href="#sdgs" className="block text-gray-700 hover:text-green-700 font-medium">Our Goal</a>
+                    <a href="#contact" className="block text-gray-700 hover:text-green-700 font-medium">Contact</a>
+                    <Link to="/login" className="block w-full text-center bg-green-800 text-white px-8 py-3 rounded-none hover:bg-green-900 transition-colors font-medium">Login / Sign Up</Link>
                 </div>
             )}
         </header>
     );
 };
 
-
 // --- FOOTER --- //
 const Footer: React.FC = () => (
-    <footer id="contact" className="bg-gray-800 text-white py-12">
-        <div className="container mx-auto px-6 text-center">
-            <h3 className="text-2xl font-bold mb-4">YahiPe</h3>
-            <p className="mb-4">Connecting communities, one service at a time.</p>
-            <div className="flex justify-center items-center space-x-4">
-                <Phone className="w-5 h-5" />
-                <span>+91 12345 67890</span>
+    <footer id="contact" className="bg-green-900 text-white py-20">
+        <div className="container mx-auto px-8 text-center max-w-2xl">
+            <h3 className="text-3xl font-bold mb-6">YahiPe</h3>
+            <p className="mb-8 text-green-100 text-lg">Connecting communities, one service at a time.</p>
+            <div className="flex justify-center items-center space-x-4 mb-12">
+                <Phone className="w-6 h-6 text-green-300" />
+                <span className="text-green-100 text-lg">+91 12345 67890</span>
             </div>
-            <p className="mt-8 text-gray-400">&copy; 2024 YahiPe. All rights reserved.</p>
+            <div className="border-t border-green-700 pt-8">
+                <p className="text-green-300">&copy; 2024 YahiPe. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 );
@@ -103,71 +103,71 @@ const Footer: React.FC = () => (
 // --- LANDING PAGE --- //
 const LandingPage: React.FC = () => {
   const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => (
-    <div className="bg-white p-6 rounded-lg shadow-lg text-center transform hover:scale-105 transition-transform">
-      <div className="flex justify-center mb-4">{icon}</div>
-      <h3 className="text-xl font-semibold mb-2 text-gray-800">{title}</h3>
-      <p className="text-gray-600">{children}</p>
+    <div className="bg-green-50 p-12 rounded-none text-center transform hover:bg-green-100 transition-colors border border-green-100">
+      <div className="flex justify-center mb-8">{icon}</div>
+      <h3 className="text-2xl font-bold mb-6 text-green-900">{title}</h3>
+      <p className="text-gray-700 text-lg leading-relaxed">{children}</p>
     </div>
   );
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-white">
       <Header />
       <main>
         {/* Hero Section */}
-        <section className="py-20 md:py-32 bg-white">
-          <div className="container mx-auto px-6 text-center">
-            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-              Your Neighborhood, <span className="text-indigo-600">At Your Fingertips.</span>
+        <section className="py-32 md:py-48 bg-white">
+          <div className="container mx-auto px-8 text-center max-w-5xl">
+            <h1 className="text-5xl md:text-7xl font-bold text-green-900 leading-tight mb-8">
+              Your Neighborhood, <br /><span className="text-green-700">At Your Fingertips.</span>
             </h1>
-            <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="mt-8 text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-16">
               Discover and connect with local shops and service providers right in your area. YahiPe makes local easy.
             </p>
-            <Link to="/login" className="mt-8 inline-block bg-indigo-600 text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-indigo-700 transition-colors">
+            <Link to="/login" className="inline-block bg-green-800 text-white px-12 py-4 rounded-none text-xl font-medium hover:bg-green-900 transition-colors">
               Get Started
             </Link>
           </div>
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="py-20">
-          <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">How It Works</h2>
-            <div className="grid md:grid-cols-3 gap-12 text-center">
-              <div className="flex flex-col items-center">
-                <div className="bg-indigo-100 p-5 rounded-full mb-4">
-                  <Map className="w-10 h-10 text-indigo-600" />
+        <section id="how-it-works" className="py-32 bg-gray-50">
+          <div className="container mx-auto px-8 max-w-7xl">
+            <h2 className="text-4xl font-bold text-center text-green-900 mb-20">How It Works</h2>
+            <div className="grid md:grid-cols-3 gap-16 text-center">
+              <div className="flex flex-col items-center space-y-8">
+                <div className="bg-green-800 p-8 rounded-full">
+                  <Map className="w-12 h-12 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">1. Discover Local Shops</h3>
-                <p className="text-gray-600">Use our map to find services near you, from salons to repair shops.</p>
+                <h3 className="text-2xl font-bold text-green-900">1. Discover Local Shops</h3>
+                <p className="text-gray-600 text-lg leading-relaxed max-w-sm">Use our map to find services near you, from salons to repair shops.</p>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="bg-indigo-100 p-5 rounded-full mb-4">
-                  <Eye className="w-10 h-10 text-indigo-600" />
+              <div className="flex flex-col items-center space-y-8">
+                <div className="bg-green-800 p-8 rounded-full">
+                  <Eye className="w-12 h-12 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">2. View Details</h3>
-                <p className="text-gray-600">Check shop status, services, prices, and available staff instantly.</p>
+                <h3 className="text-2xl font-bold text-green-900">2. View Details</h3>
+                <p className="text-gray-600 text-lg leading-relaxed max-w-sm">Check shop status, services, prices, and available staff instantly.</p>
               </div>
-              <div className="flex flex-col items-center">
-                <div className="bg-indigo-100 p-5 rounded-full mb-4">
-                  <Store className="w-10 h-10 text-indigo-600" />
+              <div className="flex flex-col items-center space-y-8">
+                <div className="bg-green-800 p-8 rounded-full">
+                  <Store className="w-12 h-12 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">3. Connect & Transact</h3>
-                <p className="text-gray-600">Directly connect with the shop to avail services. Simple and fast.</p>
+                <h3 className="text-2xl font-bold text-green-900">3. Connect & Transact</h3>
+                <p className="text-gray-600 text-lg leading-relaxed max-w-sm">Directly connect with the shop to avail services. Simple and fast.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Benefits Section */}
-        <section id="benefits" className="py-20 bg-white">
-          <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose YahiPe?</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <FeatureCard icon={<Users className="w-12 h-12 text-indigo-600" />} title="For Customers">
+        <section id="benefits" className="py-32 bg-white">
+          <div className="container mx-auto px-8 max-w-7xl">
+            <h2 className="text-4xl font-bold text-center text-green-900 mb-20">Why Choose YahiPe?</h2>
+            <div className="grid md:grid-cols-2 gap-16">
+              <FeatureCard icon={<Users className="w-16 h-16 text-green-700" />} title="For Customers">
                 Find exactly what you need, when you need it. Save time, support local businesses, and enjoy the convenience of a connected neighborhood.
               </FeatureCard>
-              <FeatureCard icon={<UserCog className="w-12 h-12 text-green-600" />} title="For Shopkeepers">
+              <FeatureCard icon={<UserCog className="w-16 h-16 text-green-700" />} title="For Shopkeepers">
                 Go digital effortlessly. Manage your shop, track your performance, and reach more local customers without any technical hassle.
               </FeatureCard>
             </div>
@@ -175,20 +175,20 @@ const LandingPage: React.FC = () => {
         </section>
 
         {/* UN SDGs Section */}
-        <section id="sdgs" className="py-20">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Our Commitment to a Better Future</h2>
-            <p className="text-gray-600 mb-12 max-w-3xl mx-auto">
+        <section id="sdgs" className="py-32 bg-gray-50">
+          <div className="container mx-auto px-8 text-center max-w-7xl">
+            <h2 className="text-4xl font-bold text-green-900 mb-8">Our Commitment to a Better Future</h2>
+            <p className="text-gray-600 mb-20 max-w-4xl mx-auto text-xl leading-relaxed">
               We're passionate about more than just business. We're aligned with the UN Sustainable Development Goals to create a positive impact.
             </p>
-            <div className="grid md:grid-cols-3 gap-8">
-                <FeatureCard icon={<DollarSign className="w-12 h-12 text-red-500" />} title="Goal 8: Decent Work & Economic Growth">
+            <div className="grid md:grid-cols-3 gap-16">
+                <FeatureCard icon={<DollarSign className="w-16 h-16 text-green-700" />} title="Goal 8: Decent Work & Economic Growth">
                     By empowering local entrepreneurs, we help create sustainable livelihoods and boost local economies.
                 </FeatureCard>
-                <FeatureCard icon={<Home className="w-12 h-12 text-orange-500" />} title="Goal 11: Sustainable Cities & Communities">
+                <FeatureCard icon={<Home className="w-16 h-16 text-green-700" />} title="Goal 11: Sustainable Cities & Communities">
                     We strengthen local communities by making them more self-sufficient and reducing the need for long-distance travel for basic services.
                 </FeatureCard>
-                 <FeatureCard icon={<HeartHandshake className="w-12 h-12 text-blue-500" />} title="Goal 10: Reduced Inequalities">
+                 <FeatureCard icon={<HeartHandshake className="w-16 h-16 text-green-700" />} title="Goal 10: Reduced Inequalities">
                     Our easy-to-use platform provides digital access to small business owners, bridging the technology gap.
                 </FeatureCard>
             </div>
@@ -199,7 +199,6 @@ const LandingPage: React.FC = () => {
     </div>
   );
 };
-
 
 // --- LOGIN PAGE --- //
 const LoginPage: React.FC = () => {
@@ -235,7 +234,7 @@ const LoginPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
-            <Link to="/" className="text-3xl font-bold text-indigo-600 mb-8">YahiPe</Link>
+            <Link to="/" className="text-3xl font-bold text-green-800 mb-8">YahiPe</Link>
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
                 {error && <p className="bg-red-100 text-red-700 p-3 rounded-md mb-4">{error}</p>}
@@ -244,7 +243,7 @@ const LoginPage: React.FC = () => {
                         <label className="block text-gray-700 mb-2" htmlFor="email">Email</label>
                         <input 
                             type="email" id="email" value={email} onChange={e => setEmail(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" 
                             required 
                         />
                     </div>
@@ -252,20 +251,20 @@ const LoginPage: React.FC = () => {
                         <label className="block text-gray-700 mb-2" htmlFor="password">Password</label>
                         <input 
                             type="password" id="password" value={password} onChange={e => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" 
                             required
                         />
                     </div>
-                    <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-colors">
+                    <button type="submit" className="w-full bg-green-800 text-white py-2 rounded-md hover:bg-green-900 transition-colors">
                         Login
                     </button>
                 </form>
                 <div className="mt-4 text-center text-sm text-gray-600">
                     <p>Use dummy credentials:</p>
                     <div className="flex justify-center gap-2 mt-2">
-                        <button onClick={() => setCredentials('consumer')} className="text-indigo-600 hover:underline">Consumer</button>
+                        <button onClick={() => setCredentials('consumer')} className="text-green-800 hover:underline">Consumer</button>
                         <span>|</span>
-                        <button onClick={() => setCredentials('shopkeeper')} className="text-indigo-600 hover:underline">Shopkeeper</button>
+                        <button onClick={() => setCredentials('shopkeeper')} className="text-green-800 hover:underline">Shopkeeper</button>
                     </div>
                 </div>
             </div>
@@ -305,7 +304,7 @@ const ConsumerDashboard: React.FC = () => {
         <div className="flex h-screen bg-gray-100">
             <aside className="w-full md:w-80 bg-white p-4 space-y-6 flex flex-col shadow-lg">
                 <div>
-                    <h1 className="text-2xl font-bold text-indigo-600">YahiPe</h1>
+                    <h1 className="text-2xl font-bold text-green-800">YahiPe</h1>
                     <p className="text-sm text-gray-600">Welcome, {user?.name}!</p>
                 </div>
                 
@@ -313,12 +312,12 @@ const ConsumerDashboard: React.FC = () => {
                     <h2 className="font-semibold text-gray-800">Filters</h2>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Category</label>
-                        <select value={category} onChange={e => setCategory(e.target.value)} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <select value={category} onChange={e => setCategory(e.target.value)} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md">
                            {categories.map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                     </div>
                     <div className="flex items-center">
-                        <input id="open-now" type="checkbox" checked={openNow} onChange={e => setOpenNow(e.target.checked)} className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                        <input id="open-now" type="checkbox" checked={openNow} onChange={e => setOpenNow(e.target.checked)} className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500" />
                         <label htmlFor="open-now" className="ml-2 block text-sm text-gray-900">Open Now</label>
                     </div>
 
@@ -344,7 +343,7 @@ const ConsumerDashboard: React.FC = () => {
                                     <p className="text-sm text-gray-600">{shop.category}</p>
                                     <p className={`text-sm font-semibold ${shop.isOpen ? 'text-green-600' : 'text-red-600'}`}>{shop.isOpen ? 'Open' : 'Closed'}</p>
                                 </div>
-                                <button className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm">View Details</button>
+                                <button className="bg-green-800 text-white px-4 py-2 rounded-md text-sm hover:bg-green-900">View Details</button>
                              </div>
                         ))}
                     </div>
@@ -353,7 +352,6 @@ const ConsumerDashboard: React.FC = () => {
         </div>
     );
 };
-
 
 // --- SHOPKEEPER DASHBOARD --- //
 const ShopkeeperDashboard: React.FC = () => {
@@ -401,7 +399,7 @@ const ShopkeeperDashboard: React.FC = () => {
     const serviceChartData = Object.entries(salesByService).map(([name, count]) => ({ name, count }));
 
     const TabButton: React.FC<{ tabName: string, icon: React.ReactNode, children: React.ReactNode }> = ({ tabName, icon, children }) => (
-        <button onClick={() => setActiveTab(tabName)} className={`flex items-center space-x-3 p-3 rounded-md w-full text-left ${activeTab === tabName ? 'bg-indigo-100 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'}`}>
+        <button onClick={() => setActiveTab(tabName)} className={`flex items-center space-x-3 p-3 rounded-md w-full text-left ${activeTab === tabName ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-100'}`}>
             {icon}<span>{children}</span>
         </button>
     );
@@ -409,7 +407,7 @@ const ShopkeeperDashboard: React.FC = () => {
     return (
         <div className="flex h-screen bg-gray-50">
             <aside className="w-64 bg-white p-4 space-y-4 flex-col hidden md:flex">
-                <h1 className="text-2xl font-bold text-indigo-600 px-2">YahiPe</h1>
+                <h1 className="text-2xl font-bold text-green-800 px-2">YahiPe</h1>
                 <nav className="flex-grow space-y-2">
                     <TabButton tabName="dashboard" icon={<BarChart2 className="w-5 h-5"/>}>Dashboard</TabButton>
                     <TabButton tabName="services" icon={<List className="w-5 h-5"/>}>Services</TabButton>
@@ -438,13 +436,12 @@ const ShopkeeperDashboard: React.FC = () => {
                 <div className="md:hidden border-b border-gray-200 mb-4">
                     <nav className="flex space-x-4" aria-label="Tabs">
                         {['dashboard', 'services', 'staff', 'insights'].map((tab) => (
-                        <button key={tab} onClick={() => setActiveTab(tab)} className={`capitalize shrink-0 px-3 py-2 font-medium text-sm rounded-t-lg ${activeTab === tab ? 'border-b-2 border-indigo-500 text-indigo-600' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}>
+                        <button key={tab} onClick={() => setActiveTab(tab)} className={`capitalize shrink-0 px-3 py-2 font-medium text-sm rounded-t-lg ${activeTab === tab ? 'border-b-2 border-green-500 text-green-600' : 'border-b-2 border-transparent text-gray-500 hover:text-gray-700'}`}>
                             {tab}
                         </button>
                         ))}
                     </nav>
                 </div>
-
 
                 {activeTab === 'dashboard' && (
                     <div className="space-y-6">
@@ -463,13 +460,13 @@ const ShopkeeperDashboard: React.FC = () => {
                             <div className="bg-white p-6 rounded-lg shadow">
                                 <h3 className="font-semibold mb-4">Weekly Sales</h3>
                                 <ResponsiveContainer width="100%" height={300}>
-                                    <LineChart data={chartData}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name"/><YAxis/><Tooltip/><Legend/><Line type="monotone" dataKey="sales" stroke="#4f46e5" strokeWidth={2}/></LineChart>
+                                    <LineChart data={chartData}><CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="name"/><YAxis/><Tooltip/><Legend/><Line type="monotone" dataKey="sales" stroke="#166534" strokeWidth={2}/></LineChart>
                                 </ResponsiveContainer>
                             </div>
                             <div className="bg-white p-6 rounded-lg shadow">
                                 <h3 className="font-semibold mb-4">Popular Services</h3>
                                 <ResponsiveContainer width="100%" height={300}>
-                                    <BarChart data={serviceChartData} layout="vertical"><CartesianGrid strokeDasharray="3 3"/><XAxis type="number"/><YAxis type="category" dataKey="name" width={100} tick={{fontSize: 12}}/><Tooltip/><Legend/><Bar dataKey="count" fill="#818cf8"/></BarChart>
+                                    <BarChart data={serviceChartData} layout="vertical"><CartesianGrid strokeDasharray="3 3"/><XAxis type="number"/><YAxis type="category" dataKey="name" width={100} tick={{fontSize: 12}}/><Tooltip/><Legend/><Bar dataKey="count" fill="#15803d"/></BarChart>
                                 </ResponsiveContainer>
                             </div>
                         </div>
@@ -487,7 +484,7 @@ const ShopkeeperDashboard: React.FC = () => {
                                 </div>
                             ))}
                         </div>
-                        <button className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Add New Service</button>
+                        <button className="mt-4 bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900">Add New Service</button>
                     </div>
                 )}
                 
@@ -502,20 +499,20 @@ const ShopkeeperDashboard: React.FC = () => {
                                 </div>
                             ))}
                         </div>
-                        <button className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Add New Staff</button>
+                        <button className="mt-4 bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900">Add New Staff</button>
                     </div>
                 )}
 
                 {activeTab === 'insights' && (
                      <div className="bg-white p-6 rounded-lg shadow">
-                        <h3 className="text-xl font-bold mb-4 flex items-center"><BrainCircuit className="w-6 h-6 mr-2 text-indigo-600"/>AI-Powered Business Insights</h3>
+                        <h3 className="text-xl font-bold mb-4 flex items-center"><BrainCircuit className="w-6 h-6 mr-2 text-green-800"/>AI-Powered Business Insights</h3>
                         <p className="text-gray-600 mb-4">Get personalized suggestions to grow your business based on your sales data.</p>
-                        <button onClick={fetchInsights} disabled={isLoadingInsights} className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 disabled:bg-indigo-300">
+                        <button onClick={fetchInsights} disabled={isLoadingInsights} className="bg-green-800 text-white px-6 py-2 rounded-md hover:bg-green-900 disabled:bg-green-300">
                            {isLoadingInsights ? 'Thinking...' : 'Get Suggestions'}
                         </button>
                         {isLoadingInsights && <p className="mt-4 text-gray-600">Our AI is analyzing your data. This might take a moment...</p>}
                         {insights && (
-                            <div className="mt-6 p-4 bg-indigo-50 rounded-md border border-indigo-200">
+                            <div className="mt-6 p-4 bg-green-50 rounded-md border border-green-200">
                                 <h4 className="font-semibold text-gray-800 mb-2">Here are some ideas for you:</h4>
                                 <div className="whitespace-pre-wrap text-gray-700 space-y-2">
                                     {insights.split('\n').map((line, i) => line.trim() && <p key={i}>{line}</p>)}
