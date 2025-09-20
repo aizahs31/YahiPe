@@ -6,6 +6,9 @@ import ConsumerMap from './components/ConsumerMap';
 import { getBusinessInsights } from './services/geminiService';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { Map, Users, Store, BarChart2, DollarSign, LogIn, Phone, Home, BrainCircuit, HeartHandshake, Leaf, UserCog, Menu, X, List, Eye } from 'lucide-react';
+import HowItWorksPage from './pages/howitworks';
+import OurGoalPage from './pages/ourgoal';
+
 
 // --- AUTH CONTEXT --- //
 interface AuthContextType {
@@ -58,9 +61,9 @@ const Header: React.FC = () => {
             <nav className="container mx-auto px-8 py-6 flex justify-between items-center">
                 <Link to="/" className="text-3xl font-bold text-green-800">YahiPe</Link>
                 <div className="hidden md:flex items-center space-x-12">
-                    <a href="#how-it-works" className="text-gray-700 hover:text-green-700 font-medium transition-colors">How it Works</a>
-                    <a href="#benefits" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Benefits</a>
-                    <a href="#sdgs" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Our Goal</a>
+                    <Link to="/howitworks" className="text-gray-700 hover:text-green-700 font-medium transition-colors">How it Works</Link>
+                    <Link to="/ourgoal" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Our goal</Link>
+                    {/* <a href="#sdgs" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Our Goal</a> */}
                     <a href="#contact" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Contact</a>
                     <Link to="/login" className="bg-green-800 text-white px-8 py-3 rounded-none hover:bg-green-900 transition-colors font-medium">Login / Sign Up</Link>
                 </div>
@@ -532,12 +535,23 @@ export default function App() {
   return (
     <AuthProvider>
       <HashRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard/consumer" element={<ProtectedRoute><ConsumerDashboard /></ProtectedRoute>} />
-          <Route path="/dashboard/shopkeeper" element={<ProtectedRoute><ShopkeeperDashboard /></ProtectedRoute>} />
-        </Routes>
+       <Routes>
+  <Route path="/" element={<LandingPage />} />
+  <Route path="/howitworks" element={<HowItWorksPage />} />
+  <Route path="/ourgoal" element={<OurGoalPage />} />
+  <Route path="/login" element={<LoginPage />} />
+  <Route 
+    path="/dashboard/consumer" 
+    element={<ProtectedRoute><ConsumerDashboard /></ProtectedRoute>} 
+  />
+  <Route 
+    path="/dashboard/shopkeeper" 
+    element={<ProtectedRoute><ShopkeeperDashboard /></ProtectedRoute>} 
+  />
+  {/* Optional: fallback 404 page */}
+  <Route path="*" element={<LandingPage />} />
+</Routes>
+
       </HashRouter>
     </AuthProvider>
   );
