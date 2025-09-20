@@ -13,7 +13,7 @@ const Header: React.FC = () => {
           <Link to="/howitworks" className="text-gray-700 hover:text-green-700 font-medium transition-colors">How It Works</Link>
           <Link to="/ourgoal" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Our Goal</Link>
           <a href="#contact" className="text-gray-700 hover:text-green-700 font-medium transition-colors">Contact</a>
-          <Link to="/login" className="bg-green-800 text-white px-8 py-3 rounded-none hover:bg-green-900 transition-colors font-medium">Login / Sign Up</Link>
+          <Link to="/login" className="bg-green-800 text-white px-8 py-3 rounded-full hover:bg-green-900 transition-colors font-medium">Login / Sign Up</Link>
         </div>
         <div className="md:hidden">
           <button onClick={() => setIsOpen(!isOpen)}>

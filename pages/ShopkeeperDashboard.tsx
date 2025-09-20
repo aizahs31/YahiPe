@@ -50,7 +50,6 @@ const ShopkeeperDashboard: React.FC = () => {
 
   if (!shop) return <div>Loading shop data...</div>;
 
-  // Dynamic today's date
   const today = new Date().toISOString().split("T")[0];
 
   // Weekly sales data
@@ -263,9 +262,49 @@ const ShopkeeperDashboard: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button className="mt-4 bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900">
-              Add New Service
-            </button>
+
+            {/* Add New Service Form */}
+            <div className="mt-6">
+              <h4 className="font-semibold text-gray-700 mb-2">Add New Service</h4>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.target as HTMLFormElement;
+                  const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+                  const price = Number(
+                    (form.elements.namedItem("price") as HTMLInputElement).value
+                  );
+                  const newService = {
+                    id: `s${shop.id}-${Date.now()}`,
+                    name,
+                    price,
+                  };
+                  setShop({ ...shop, services: [...shop.services, newService] });
+                  form.reset();
+                }}
+                className="space-y-3"
+              >
+                <input
+                  name="name"
+                  placeholder="Service Name"
+                  className="w-full border p-2 rounded-md"
+                  required
+                />
+                <input
+                  name="price"
+                  type="number"
+                  placeholder="Price (₹)"
+                  className="w-full border p-2 rounded-md"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900"
+                >
+                  Add Service
+                </button>
+              </form>
+            </div>
           </div>
         )}
 
@@ -284,9 +323,46 @@ const ShopkeeperDashboard: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button className="mt-4 bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900">
-              Add New Staff
-            </button>
+
+            {/* Add New Staff Form */}
+            <div className="mt-6">
+              <h4 className="font-semibold text-gray-700 mb-2">Add New Staff</h4>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const form = e.target as HTMLFormElement;
+                  const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+                  const shift = (form.elements.namedItem("shift") as HTMLInputElement).value;
+                  const newStaff = {
+                    id: `st${shop.id}-${Date.now()}`,
+                    name,
+                    shift,
+                  };
+                  setShop({ ...shop, staff: [...shop.staff, newStaff] });
+                  form.reset();
+                }}
+                className="space-y-3"
+              >
+                <input
+                  name="name"
+                  placeholder="Staff Name"
+                  className="w-full border p-2 rounded-md"
+                  required
+                />
+                <input
+                  name="shift"
+                  placeholder="Shift (e.g., 9 AM - 6 PM)"
+                  className="w-full border p-2 rounded-md"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-green-800 text-white px-4 py-2 rounded-md hover:bg-green-900"
+                >
+                  Add Staff
+                </button>
+              </form>
+            </div>
           </div>
         )}
 
@@ -321,9 +397,7 @@ const ShopkeeperDashboard: React.FC = () => {
                 <div className="whitespace-pre-wrap text-gray-700 space-y-2">
                   {insights
                     .split("\n")
-                    .map(
-                      (line, i) => line.trim() && <p key={i}>{line}</p>
-                    )}
+                    .map((line, i) => line.trim() && <p key={i}>{line}</p>)}
                 </div>
               </div>
             )}
