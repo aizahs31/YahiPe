@@ -25,7 +25,7 @@ const HowItWorksPage: React.FC = () => {
     description: string;
     number: string;
   }> = ({ icon, title, description, number }) => (
-    <div className="bg-green-50 p-8 rounded-none border border-green-100 hover:bg-green-100 transition-colors">
+    <div className="bg-green-50 p-8 rounded-xl border border-green-100 hover:bg-green-100 transition-colors shadow-sm">
       <div className="flex items-start space-x-4">
         <div className="bg-green-800 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg flex-shrink-0">
           {number}
@@ -48,7 +48,7 @@ const HowItWorksPage: React.FC = () => {
     title: string; 
     description: string;
   }> = ({ icon, title, description }) => (
-    <div className="bg-white p-8 rounded-none border border-green-200 text-center hover:shadow-lg transition-shadow">
+    <div className="bg-white p-8 rounded-xl border border-green-200 text-center hover:shadow-lg transition-shadow">
       <div className="flex justify-center mb-6">
         <div className="bg-green-100 p-4 rounded-full">
           <div className="text-green-700">
@@ -72,7 +72,7 @@ const HowItWorksPage: React.FC = () => {
           </Link>
           <Link 
             to="/login" 
-            className="bg-green-800 text-white px-6 py-2 rounded-none hover:bg-green-900 transition-colors"
+            className="bg-green-800 text-white px-6 py-2 rounded-full hover:bg-green-900 transition-colors"
           >
             Get Started
           </Link>
@@ -232,13 +232,13 @@ const HowItWorksPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 to="/login" 
-                className="bg-white text-green-800 px-8 py-4 rounded-none text-lg font-medium hover:bg-gray-100 transition-colors"
+                className="bg-white text-green-800 px-8 py-4 rounded-full text-lg font-medium hover:bg-gray-100 transition-colors"
               >
                 Start as Customer
               </Link>
               <Link 
                 to="/login" 
-                className="bg-green-700 text-white px-8 py-4 rounded-none text-lg font-medium hover:bg-green-600 transition-colors"
+                className="bg-green-700 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-green-600 transition-colors"
               >
                 Register Your Shop
               </Link>
